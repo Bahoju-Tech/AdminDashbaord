@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   FileText,
   Mail,
@@ -13,7 +13,6 @@ import {
   LogOut,
   User
 } from 'lucide-react';
-import { useRouter } from 'next/router';
 
 export default function Sidebar() {
   const pathname = usePathname();
