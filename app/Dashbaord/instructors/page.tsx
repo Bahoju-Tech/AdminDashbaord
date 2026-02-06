@@ -9,6 +9,8 @@ import {
   TrendingDown,
   Search,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   X,
   Bell,
   UserX,
@@ -47,6 +49,8 @@ export default function InstructorsPage() {
   const [statusFilter, setStatusFilter] = useState('All Status');
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Sample instructor data
   const instructors: Instructor[] = [
@@ -185,11 +189,25 @@ export default function InstructorsPage() {
   const handleCategoryChange = (category: string) => {
     setCategoryFilter(category);
     setShowCategoryDropdown(false);
+    setCurrentPage(1); // Reset to first page when filter changes
   };
 
   const handleStatusChange = (status: string) => {
     setStatusFilter(status);
     setShowStatusDropdown(false);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage(prev => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
 
   // Filter instructors based on search and filters
@@ -201,6 +219,12 @@ export default function InstructorsPage() {
     const matchesCategory = categoryFilter === 'Category' || instructor.expertise === categoryFilter;
     return matchesSearch && matchesStatus && matchesCategory;
   });
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredInstructors.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = filteredInstructors.slice(startIndex, endIndex);
 
   return (
     <div className="flex-1 overflow-auto">
@@ -343,7 +367,7 @@ export default function InstructorsPage() {
               </tr>
             </thead>
             <tbody>
-              {filteredInstructors.map((instructor) => (
+              {currentData.map((instructor) => (
                 <tr
                   key={instructor.id}
                   className="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
@@ -401,6 +425,60 @@ export default function InstructorsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination */}
+        <div className="flex flex-col sm:flex-row items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-t border-gray-200 gap-3 sm:gap-0">
+          <div className="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
+            Showing {startIndex + 1} to {Math.min(endIndex, filteredInstructors.length)} of {filteredInstructors.length} results
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${
+                currentPage === 1
+                  ? 'text-gray-300 cursor-not-allowed'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span className="text-xs sm:text-sm hidden sm:inline">Previous</span>
+            </button>
+            
+            {/* Page Numbers */}
+            <div className="flex items-center gap-1">
+              {Array.from({ length: totalPages }, (_, index) => {
+                const pageNumber = index + 1;
+                return (
+                  <button
+                    key={pageNumber}
+                    onClick={() => handlePageChange(pageNumber)}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
+                      currentPage === pageNumber
+                        ? 'bg-[#005F87] text-white'
+                        : 'text-gray-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    {pageNumber}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${
+                currentPage === totalPages
+                  ? 'text-gray-300 cursor-not-allowed'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              <span className="text-xs sm:text-sm hidden sm:inline">Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 
