@@ -15,13 +15,17 @@ import {
   Trash2,
   ChevronLeft,
   ChevronRight,
-  FileText
+  FileText,
+  X
 } from 'lucide-react';
 import Notifications from '@/components/Notificationpanel';
 import CreateBlogModal from '@/components/Createblogmodal';
 
 export default function BlogContentManagement() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All Status');
@@ -114,6 +118,38 @@ export default function BlogContentManagement() {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
+  };
+
+  const handleEditBlog = (blog: any) => {
+    setSelectedBlog(blog);
+    setIsEditModalOpen(true);
+  };
+
+  const handleDeleteBlog = (blog: any) => {
+    setSelectedBlog(blog);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedBlog(null);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setSelectedBlog(null);
+  };
+
+  const handleConfirmEdit = (updatedBlog: any) => {
+    console.log('Updating blog:', updatedBlog);
+    handleCloseEditModal();
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedBlog) {
+      console.log('Deleting blog:', selectedBlog.title);
+    }
+    handleCloseDeleteModal();
   };
 
   return (
@@ -281,12 +317,18 @@ export default function BlogContentManagement() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      {blog.status === 'Draft' && (
-                        <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                          <Edit className="w-4 h-4 text-gray-600" />
-                        </button>
-                      )}
-                      <button className="p-2 hover:bg-red-50 rounded-lg transition-colors">
+                      <button 
+                        onClick={() => handleEditBlog(blog)}
+                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Edit Blog"
+                      >
+                        <Edit className="w-4 h-4 text-gray-600" />
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteBlog(blog)}
+                        className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Delete Blog"
+                      >
                         <Trash2 className="w-4 h-4 text-red-600" />
                       </button>
                     </div>
@@ -349,6 +391,191 @@ export default function BlogContentManagement() {
       </div>
 
       <CreateBlogModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
+
+      {/* Edit Blog Modal */}
+      {isEditModalOpen && selectedBlog && (
+        <EditBlogModal 
+          blog={selectedBlog} 
+          onClose={handleCloseEditModal} 
+          onSave={handleConfirmEdit} 
+        />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && selectedBlog && (
+        <DeleteBlogConfirmationModal 
+          blog={selectedBlog} 
+          onClose={handleCloseDeleteModal} 
+          onConfirm={handleConfirmDelete} 
+        />
+      )}
+    </div>
+  );
+}
+
+function EditBlogModal({ blog, onClose, onSave }: { 
+  blog: any; 
+  onClose: () => void; 
+  onSave: (blog: any) => void; 
+}) {
+  const [title, setTitle] = useState(blog.title);
+  const [category, setCategory] = useState(blog.category);
+  const [status, setStatus] = useState(blog.status);
+
+  const handleSave = () => {
+    const updatedBlog = {
+      ...blog,
+      title,
+      category,
+      status
+    };
+    onSave(updatedBlog);
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="bg-white rounded-[20px] w-full max-w-2xl relative z-10">
+        <div className="p-8">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">Edit Blog Post</h2>
+              <p className="text-sm text-gray-500">Update blog post information</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* Form Fields */}
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Blog Title</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                placeholder="Enter blog title"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Category</label>
+              <input
+                type="text"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                placeholder="Enter category"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Status</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+              >
+                <option value="Draft">Draft</option>
+                <option value="Published">Published</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-end gap-3 mt-8">
+            <button
+              onClick={onClose}
+              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              className="px-6 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DeleteBlogConfirmationModal({ blog, onClose, onConfirm }: { 
+  blog: any; 
+  onClose: () => void; 
+  onConfirm: () => void; 
+}) {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="bg-white rounded-[20px] w-full max-w-md relative z-10">
+        <div className="p-8">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">Delete Blog Post</h2>
+              <p className="text-sm text-gray-500">Are you sure you want to delete this blog post?</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* Blog Info */}
+          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            <h3 className="font-semibold text-gray-900 mb-2">{blog.title}</h3>
+            <div className="space-y-1">
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Category:</span> {blog.category}
+              </p>
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Status:</span> {blog.status}
+              </p>
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Views:</span> {blog.views}
+              </p>
+              <p className="text-sm text-gray-600">
+                <span className="font-medium">Created:</span> {blog.created}
+              </p>
+            </div>
+          </div>
+
+          {/* Warning Message */}
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <p className="text-sm text-red-800">
+              <strong>Warning:</strong> This action cannot be undone. All blog post data, including content, comments, and analytics, will be permanently deleted.
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-6 py-3 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+            >
+              Delete Blog Post
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
