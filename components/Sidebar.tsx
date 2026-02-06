@@ -3,19 +3,22 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  FileText, 
-  Mail, 
-  Phone, 
-  Building2, 
-  Users, 
+import {
+  FileText,
+  Mail,
+  Phone,
+  Building2,
+  Users,
   BookOpen,
   LogOut,
   User
 } from 'lucide-react';
+import { useRouter } from 'next/router';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
 
   const menuItems = [
     { name: 'Blog Post', path: '/Dashbaord', icon: FileText },
@@ -25,6 +28,12 @@ export default function Sidebar() {
     { name: 'Instructors', path: '/Dashbaord/instructors', icon: Users },
     { name: 'Courses', path: '/Dashbaord/courses', icon: BookOpen },
   ];
+
+  const logout = () => {
+    // Add logout logic here
+    router.push('/');
+    console.log('Logout clicked');
+  };
 
   return (
     <div className="w-[400px] h-screen bg-white shadow-lg flex flex-col rounded-[24px]">
@@ -42,16 +51,15 @@ export default function Sidebar() {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.path;
-            
+
             return (
               <li key={item.path}>
                 <Link
                   href={item.path}
-                  className={`flex items-center gap-3 px-4 py-5 rounded-lg transition-all ${
-                    isActive
+                  className={`flex items-center gap-3 px-4 py-5 rounded-lg transition-all ${isActive
                       ? 'bg-[#005F87] text-white shadow-sm'
                       : 'text-gray-600 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <Icon className="w-5 h-5" strokeWidth={2} />
                   <span className="text-sm font-semibold">{item.name}</span>
@@ -64,7 +72,7 @@ export default function Sidebar() {
 
       {/* Logout Button */}
       <div className="p-3 pb-6">
-        <button className="flex items-center gap-3 px-4 py-3 w-full text-gray-600 hover:bg-gray-50 rounded-lg transition-all">
+        <button className="flex items-center gap-3 px-4 py-3 w-full text-gray-600 hover:bg-gray-50 rounded-lg transition-all cursor-pointer" >
           <LogOut className="w-5 h-5" strokeWidth={2} />
           <span className="text-sm font-medium">Log Out</span>
         </button>
