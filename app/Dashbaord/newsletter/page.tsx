@@ -136,22 +136,22 @@ export default function NewsletterPage() {
     <div className="flex-1 overflow-auto">
       {/* Main Content */}
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
           {activeView === 'newsletter' ? 'Newsletter Management' : 'Subscribers'}
         </h1>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
           {activeView === 'newsletter' ? (
             <button
               onClick={() => handleViewChange('subscribers')}
-              className="px-4 py-2.5 border border-[#005F87] text-[#005F87] rounded-lg hover:bg-[#004A6B] hover:text-white transition-colors text-sm font-medium"
+              className="px-3 sm:px-4 py-2 sm:py-2.5 border border-[#005F87] text-[#005F87] rounded-lg hover:bg-[#004A6B] hover:text-white transition-colors text-xs sm:text-sm font-medium whitespace-nowrap"
             >
               Subscribers
             </button>
           ) : (
             <button
               onClick={() => handleViewChange('newsletter')}
-              className="px-4 py-2.5 border border-[#005F87] text-[#005F87] rounded-lg hover:bg-[#004A6B] hover:text-white transition-colors text-sm font-medium"
+              className="px-3 sm:px-4 py-2 sm:py-2.5 border border-[#005F87] text-[#005F87] rounded-lg hover:bg-[#004A6B] hover:text-white transition-colors text-xs sm:text-sm font-medium whitespace-nowrap"
             >
               Newsletter
             </button>
@@ -159,21 +159,23 @@ export default function NewsletterPage() {
           {/* {activeView === 'newsletter' && ( */}
             <button
               onClick={() => setShowCreateModal(true)}
-              className="flex items-center gap-2 bg-[#005F87] text-white px-4 py-2.5 rounded-lg hover:bg-[#004A6B] transition-colors"
+              className="flex items-center gap-1 sm:gap-2 bg-[#005F87] text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:bg-[#004A6B] transition-colors flex-1 sm:flex-initial justify-center"
             >
               <Plus className="w-4 h-4" />
-              <span className="text-sm font-medium">Create Newsletter</span>
+              <span className="text-xs sm:text-sm font-medium">Create Newsletter</span>
             </button>
           {/* )} */}
-          <Notifications />
+          {/* <div className="hidden sm:block"> */}
+            <Notifications />
+          {/* </div> */}
         </div>
       </div>
 
       {/* Stats Cards */}
       {activeView === 'newsletter' ? (
-        <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Total Subscribers */}
-          <div className="bg-white rounded-[24px] p-6 shadow-sm">
+          <div className="bg-white rounded-[24px] p-4 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
                 <Users className="w-5 h-5 text-green-600" />
@@ -183,11 +185,11 @@ export default function NewsletterPage() {
               </div>
             </div>
             <p className="text-sm font-normal text-[#4F5E6E] mb-3 mt-5">Total Subscribers</p>
-            <p className="text-[32px] font-semibold text-gray-900">20</p>
+            <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">20</p>
           </div>
 
           {/* Total Newsletter */}
-          <div className="bg-white rounded-[24px] p-6 shadow-sm">
+          <div className="bg-white rounded-[24px] p-4 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 bg-yellow-50 rounded-lg flex items-center justify-center">
                 <Mail className="w-5 h-5 text-yellow-600" />
@@ -197,11 +199,11 @@ export default function NewsletterPage() {
               </div>
             </div>
             <p className="text-sm font-normal text-[#4F5E6E] mb-3 mt-5">Total Newsletter</p>
-            <p className="text-[32px] font-semibold text-gray-900">100</p>
+            <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">100</p>
           </div>
 
           {/* Sent Newsletter */}
-          <div className="bg-white rounded-[24px] p-6 shadow-sm">
+          <div className="bg-white rounded-[24px] p-4 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
                 <Send className="w-5 h-5 text-green-600" />
@@ -211,13 +213,13 @@ export default function NewsletterPage() {
               </div>
             </div>
             <p className="text-sm font-normal text-[#4F5E6E] mb-3 mt-5">Sent Newsletter</p>
-            <p className="text-[32px] font-semibold text-gray-900">50</p>
+            <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">50</p>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Total Subscribers */}
-          <div className="bg-white rounded-[24px] p-6 shadow-sm">
+          <div className="bg-white rounded-[24px] p-4 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
                 <Users className="w-5 h-5 text-green-600" />
@@ -227,11 +229,11 @@ export default function NewsletterPage() {
               </div>
             </div>
             <p className="text-sm font-normal text-[#4F5E6E] mb-3 mt-5">Total Subscribers</p>
-            <p className="text-[32px] font-semibold text-gray-900">20</p>
+            <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">20</p>
           </div>
 
           {/* Active Subscriber */}
-          <div className="bg-white rounded-[24px] p-6 shadow-sm">
+          <div className="bg-white rounded-[24px] p-4 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 bg-yellow-50 rounded-lg flex items-center justify-center">
                 <UserCheck className="w-5 h-5 text-red-600" />
@@ -241,11 +243,11 @@ export default function NewsletterPage() {
               </div>
             </div>
             <p className="text-sm font-normal text-[#4F5E6E] mb-3 mt-5">Active Subscriber</p>
-            <p className="text-[32px] font-semibold text-gray-900">100</p>
+            <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">100</p>
           </div>
 
           {/* Unsubscribers */}
-          <div className="bg-white rounded-[24px] p-6 shadow-sm">
+          <div className="bg-white rounded-[24px] p-4 sm:p-6 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
                 <UserX className="w-5 h-5 text-blue-600" />
@@ -255,7 +257,7 @@ export default function NewsletterPage() {
               </div>
             </div>
             <p className="text-sm font-normal text-[#4F5E6E] mb-3 mt-5">Unsubscribed</p>
-            <p className="text-[32px] font-semibold text-gray-900">0</p>
+            <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">0</p>
           </div>
         </div>
       )}
@@ -263,34 +265,34 @@ export default function NewsletterPage() {
       {/* Table Section */}
       <div className="bg-white rounded-xl border border-gray-200">
         {/* Search and Filters */}
-        <div className="p-4 flex items-center gap-4 border-b border-gray-200">
+        <div className="p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 border-b border-gray-200">
           <div className={`flex-1 relative rounded-[10px] ${activeView === 'subscribers' ? 'bg-white border border-gray-300' : 'bg-[#F9F9FB]'}`}>
-            <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 sm:w-5 h-4 sm:h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search for Newsletter..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-[10px] focus:outline-none focus:ring-1 focus:ring-[#005F87] focus:border-transparent bg-transparent"
+              className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm rounded-[10px] focus:outline-none focus:ring-1 focus:ring-[#005F87] focus:border-transparent bg-transparent"
             />
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {activeView === 'newsletter' && (
-              <div className="relative category-dropdown">
+              <div className="relative category-dropdown flex-1 sm:flex-initial">
                 <button
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-[10px] bg-[#F9F9FB] transition-colors"
+                  className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[10px] bg-[#F9F9FB] transition-colors w-full sm:w-auto justify-between"
                 >
-                  <span className="text-sm text-gray-600">{categoryFilter}</span>
+                  <span className="text-xs sm:text-sm text-gray-600">{categoryFilter}</span>
                   <ChevronDown className="w-4 h-4 text-gray-600" />
                 </button>
                 {showCategoryDropdown && (
-                  <div className="absolute top-full mt-1 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                  <div className="absolute top-full mt-1 w-full sm:w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                     {categories.map((category) => (
                       <button
                         key={category}
                         onClick={() => handleCategoryChange(category)}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                       >
                         {category}
                       </button>
@@ -300,21 +302,21 @@ export default function NewsletterPage() {
               </div>
             )}
             {activeView === 'subscribers' && (
-              <div className="relative category-dropdown">
+              <div className="relative category-dropdown flex-1 sm:flex-initial">
                 <button
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-[10px] border border-gray-300 bg-white transition-colors min-w-[120px] justify-between"
+                  className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[10px] border border-gray-300 bg-white transition-colors w-full sm:min-w-[120px] justify-between"
                 >
-                  <span className="text-sm text-gray-600">{categoryFilter}</span>
+                  <span className="text-xs sm:text-sm text-gray-600">{categoryFilter}</span>
                   <ChevronDown className="w-4 h-4 text-gray-600" />
                 </button>
                 {showCategoryDropdown && (
-                  <div className="absolute top-full mt-1 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                  <div className="absolute top-full mt-1 w-full sm:w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                     {sources.map((source) => (
                       <button
                         key={source}
                         onClick={() => handleCategoryChange(source)}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                       >
                         {source}
                       </button>
@@ -323,24 +325,24 @@ export default function NewsletterPage() {
                 )}
               </div>
             )}
-            <div className="relative status-dropdown">
+            <div className="relative status-dropdown flex-1 sm:flex-initial">
               <button
                 onClick={() => setShowStatusDropdown(!showStatusDropdown)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-[10px] transition-colors ${activeView === 'subscribers'
-                  ? 'border border-gray-300 bg-white min-w-[120px] justify-between'
+                className={`flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[10px] transition-colors w-full sm:w-auto justify-between ${activeView === 'subscribers'
+                  ? 'border border-gray-300 bg-white sm:min-w-[120px]'
                   : 'bg-[#F9F9FB]'
                   }`}
               >
-                <span className="text-sm text-gray-600">{statusFilter}</span>
+                <span className="text-xs sm:text-sm text-gray-600">{statusFilter}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
               {showStatusDropdown && (
-                <div className="absolute top-full mt-1 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                <div className="absolute top-full mt-1 w-full sm:w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                   {statuses.map((status) => (
                     <button
                       key={status}
                       onClick={() => handleStatusChange(status)}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                      className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                     >
                       {status}
                     </button>
@@ -353,26 +355,26 @@ export default function NewsletterPage() {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[640px]">
             <thead>
               <tr className="border-b border-gray-200">
                 {activeView === 'newsletter' ? (
                   <>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">No</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Title</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Status</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Category</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Date</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Price</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">No</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Title</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Status</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Category</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Date</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Price</th>
                   </>
                 ) : (
                   <>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Name</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Email Address</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Status</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Source</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Date Joined</th>
-                    <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Date ...</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Name</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Email Address</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Status</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Source</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Date Joined</th>
+                    <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Date ...</th>
                   </>
                 )}
               </tr>
@@ -381,54 +383,54 @@ export default function NewsletterPage() {
               {activeView === 'newsletter' ? (
                 currentData.map((newsletter: any, index: number) => (
                   <tr key={newsletter.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{startIndex + index + 1}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{startIndex + index + 1}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{newsletter.title}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{newsletter.title}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`text-sm font-medium ${newsletter.status === 'Sent' ? 'text-green-600' :
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className={`text-xs sm:text-sm font-medium ${newsletter.status === 'Sent' ? 'text-green-600' :
                         newsletter.status === 'Draft' ? 'text-red-600' :
                           'text-blue-600'
                         }`}>
                         {newsletter.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-600">{newsletter.category}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-600">{newsletter.category}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-600">{newsletter.date}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-600">{newsletter.date}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{newsletter.price}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{newsletter.price}</span>
                     </td>
                   </tr>
                 ))
               ) : (
                 currentData.map((subscriber: any) => (
                   <tr key={subscriber.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{subscriber.name}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{subscriber.name}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{subscriber.email}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{subscriber.email}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`text-sm font-medium ${subscriber.status === 'Active' ? 'text-green-600' : 'text-red-600'
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className={`text-xs sm:text-sm font-medium ${subscriber.status === 'Active' ? 'text-green-600' : 'text-red-600'
                         }`}>
                         {subscriber.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{subscriber.source}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{subscriber.source}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{subscriber.dateJoined}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{subscriber.dateJoined}</span>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-sm text-gray-900">{subscriber.newsletter}</span>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm text-gray-900">{subscriber.newsletter}</span>
                     </td>
                   </tr>
                 ))
@@ -438,21 +440,21 @@ export default function NewsletterPage() {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
-          <div className="text-sm text-gray-600">
+        <div className="flex flex-col sm:flex-row items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-t border-gray-200 gap-3 sm:gap-0">
+          <div className="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
             Showing {startIndex + 1} to {Math.min(endIndex, filteredData.length)} of {filteredData.length} results
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${currentPage === 1
+              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${currentPage === 1
                 ? 'text-gray-300 cursor-not-allowed'
                 : 'text-gray-600 hover:bg-gray-100'
                 }`}
             >
               <ChevronLeft className="w-4 h-4" />
-              <span className="text-sm">Previous</span>
+              <span className="text-xs sm:text-sm hidden sm:inline">Previous</span>
             </button>
 
             {/* Page Numbers */}
@@ -461,7 +463,7 @@ export default function NewsletterPage() {
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
-                  className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === page
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-colors ${currentPage === page
                     ? 'bg-[#005F87] text-white'
                     : 'text-gray-600 hover:bg-gray-100'
                     }`}
@@ -474,12 +476,12 @@ export default function NewsletterPage() {
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className={`flex items-center gap-1 px-3 py-2 rounded-lg transition-colors ${currentPage === totalPages
+              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${currentPage === totalPages
                 ? 'text-gray-300 cursor-not-allowed'
                 : 'text-gray-600 hover:bg-gray-100'
                 }`}
             >
-              <span className="text-sm">Next</span>
+              <span className="text-xs sm:text-sm hidden sm:inline">Next</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -509,29 +511,29 @@ function CreateNewsletterModal({ onClose }: { onClose: () => void }) {
       {/* Black Opacity */}
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[24px] w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">Create Newsletter</h2>
-            <p className="text-sm text-gray-500">Create and publish a newsletter for your audience</p>
+          <div className="mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Create Newsletter</h2>
+            <p className="text-xs sm:text-sm text-gray-500">Create and publish a newsletter for your audience</p>
           </div>
 
           {/* Title and Category */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Title</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Title</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
               />
             </div>
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-900 mb-2">Category</label>
+              <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Category</label>
               <button
                 onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
               >
                 <span className={category ? 'text-gray-900' : 'text-gray-400'}>
                   {category || ''}
@@ -548,9 +550,9 @@ function CreateNewsletterModal({ onClose }: { onClose: () => void }) {
                         setCategory(cat);
                         setShowCategoryDropdown(false);
                       }}
-                      className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
                     >
-                      <span className="text-sm text-gray-900">{cat}</span>
+                      <span className="text-xs sm:text-sm text-gray-900">{cat}</span>
                     </button>
                   ))}
                 </div>
@@ -559,8 +561,8 @@ function CreateNewsletterModal({ onClose }: { onClose: () => void }) {
           </div>
 
           {/* Subject */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-900 mb-2">Subject</label>
+          <div className="mb-4 sm:mb-6">
+            <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Subject</label>
             <textarea
               value={subject}
               onChange={(e) => {
@@ -570,14 +572,14 @@ function CreateNewsletterModal({ onClose }: { onClose: () => void }) {
               }}
               maxLength={500}
               rows={3}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
             />
             <p className="text-xs text-gray-500 mt-1">{subject.length}/500 Characters</p>
           </div>
 
           {/* Newsletter Content */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-900 mb-2">Newsletter Content</label>
+          <div className="mb-4 sm:mb-6">
+            <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Newsletter Content</label>
             <textarea
               value={content}
               onChange={(e) => {
@@ -587,32 +589,32 @@ function CreateNewsletterModal({ onClose }: { onClose: () => void }) {
               }}
               maxLength={500}
               rows={6}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
             />
             <p className="text-xs text-gray-500 mt-1">{content.length}/500 Characters</p>
           </div>
 
           {/* Schedule for later */}
-          <div className="mb-8">
-            <label className="block text-sm font-medium text-gray-900 mb-2">Schedule for later (Optional)</label>
+          <div className="mb-6 sm:mb-8">
+            <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Schedule for later (Optional)</label>
             <input
               type="text"
               value={scheduleDate}
               onChange={(e) => setScheduleDate(e.target.value)}
               placeholder="MM/DD/YYYY"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
             />
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
             >
               Draft
             </button>
-            <button className="px-6 py-3 bg-gray-400 text-white rounded-lg text-sm font-medium hover:bg-gray-500 transition-colors">
+            <button className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-400 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-500 transition-colors order-1 sm:order-2">
               Preview
             </button>
           </div>

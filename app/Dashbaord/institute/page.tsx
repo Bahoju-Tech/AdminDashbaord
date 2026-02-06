@@ -218,24 +218,26 @@ export default function InstitutePage() {
   return (
     <div className="flex-1 overflow-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Institute</h1>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Institute</h1>
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={() => setShowRegisterModal(true)}
-            className="flex items-center gap-2 bg-[#005F87] text-white px-4 py-2.5 rounded-lg hover:bg-[#004A6B] transition-colors"
+            className="flex items-center justify-center gap-2 bg-[#005F87] text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:bg-[#004A6B] transition-colors flex-1 sm:flex-initial"
           >
-            <span className="text-xl">+</span>
-            <span className="text-sm font-medium">Register Student</span>
+            <span className="text-lg sm:text-xl">+</span>
+            <span className="text-xs sm:text-sm font-medium">Register Student</span>
           </button>
-          <Notifications />
+          {/* <div className="hidden sm:block"> */}
+            <Notifications />
+          {/* </div> */}
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {/* Total Registered students */}
-        <div className="bg-white rounded-[16px] p-6 shadow-sm">
+        <div className="bg-white rounded-[16px] p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
               <CheckCircle2 className="w-5 h-5 text-green-600" />
@@ -245,11 +247,11 @@ export default function InstitutePage() {
             </div>
           </div>
           <p className="text-sm font-normal text-[#6B7280] mb-2">Total Registered students</p>
-          <p className="text-[32px] font-semibold text-gray-900">20</p>
+          <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">20</p>
         </div>
 
         {/* Fully paid Students */}
-        <div className="bg-white rounded-[16px] p-6 shadow-sm">
+        <div className="bg-white rounded-[16px] p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-green-600" />
@@ -259,11 +261,11 @@ export default function InstitutePage() {
             </div>
           </div>
           <p className="text-sm font-normal text-[#6B7280] mb-2">Fully paid Students</p>
-          <p className="text-[32px] font-semibold text-gray-900">100</p>
+          <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">100</p>
         </div>
 
         {/* Part Payment students */}
-        <div className="bg-white rounded-[16px] p-6 shadow-sm">
+        <div className="bg-white rounded-[16px] p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
               <XCircle className="w-5 h-5 text-red-600" />
@@ -273,31 +275,31 @@ export default function InstitutePage() {
             </div>
           </div>
           <p className="text-sm font-normal text-[#6B7280] mb-2">Part Payment students</p>
-          <p className="text-[32px] font-semibold text-gray-900">12</p>
+          <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">12</p>
         </div>
       </div>
 
       {/* Table Section */}
       <div className="bg-white rounded-xl border border-gray-200">
         {/* Search and Filters */}
-        <div className="p-4 flex items-center gap-4 border-b border-gray-200">
-          <div className="flex-1 relative bg-white rounded-[10px]">
-            <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+        <div className="p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 border-b border-gray-200">
+          <div className="flex-1 relative bg-[#F9F9FB] rounded-[10px]">
+            <Search className="w-4 sm:w-5 h-4 sm:h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search for Student..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-gray-200 focus:outline-none focus:ring-1 focus:ring-[#005F87] focus:border-transparent"
+              className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm rounded-[10px] focus:outline-none focus:ring-1 focus:ring-[#005F87] focus:border-transparent"
             />
           </div>
-          <div className="flex items-center gap-3">
-            <div className="relative">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="relative flex-1 sm:flex-initial">
               <button
                 onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-[10px] border border-gray-200 bg-white transition-colors min-w-[130px] justify-between"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[10px] transition-colors w-full sm:min-w-[130px] justify-between bg-[#F9F9FB]"
               >
-                <span className="text-sm text-gray-600">{categoryFilter}</span>
+                <span className="text-xs sm:text-sm text-gray-600">{categoryFilter}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
               {showCategoryDropdown && (
@@ -306,7 +308,7 @@ export default function InstitutePage() {
                     <button
                       key={category}
                       onClick={() => handleCategoryChange(category)}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                      className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                     >
                       {category}
                     </button>
@@ -314,12 +316,12 @@ export default function InstitutePage() {
                 </div>
               )}
             </div>
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-initial">
               <button
                 onClick={() => setShowStatusDropdown(!showStatusDropdown)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-[10px] border border-gray-200 bg-white transition-colors min-w-[130px] justify-between"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[10px] bg-[#F9F9FB] transition-colors w-full sm:min-w-[130px] justify-between"
               >
-                <span className="text-sm text-gray-600">{statusFilter}</span>
+                <span className="text-xs sm:text-sm text-gray-600">{statusFilter}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
               {showStatusDropdown && (
@@ -328,7 +330,7 @@ export default function InstitutePage() {
                     <button
                       key={status}
                       onClick={() => handleStatusChange(status)}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                      className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                     >
                       {status}
                     </button>
@@ -341,16 +343,16 @@ export default function InstitutePage() {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[900px]">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Student Name</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Email Address</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Course</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Payment Type</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Amount</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Date</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Actions</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Student Name</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Email Address</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Course</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Payment Type</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Amount</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Date</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -360,26 +362,26 @@ export default function InstitutePage() {
                   className="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
                   onClick={() => handleStudentClick(student)}
                 >
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900">{student.name}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm text-gray-900">{student.name}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900">{student.email}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm text-gray-900">{student.email}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900">{student.course}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm text-gray-900">{student.course}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm font-medium text-green-600">{student.paymentType}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm font-medium text-green-600">{student.paymentType}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900">{student.amount}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm text-gray-900">{student.amount}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900">{student.date}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm text-gray-900">{student.date}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
@@ -491,74 +493,74 @@ function RegisterStudentModal({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Register New Student</h2>
-              <p className="text-sm text-gray-500">Create and publish a new blog post for your audience</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Register New Student</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Create and publish a new blog post for your audience</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           {/* Form */}
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             {/* First Name and Last Name */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">First Name</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">First Name</label>
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Last Name</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Last Name</label>
                 <input
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
             </div>
 
             {/* Email and Phone */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Email Address</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Email Address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Phone Number</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Phone Number</label>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
             </div>
 
             {/* Course and Learning Level */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-900 mb-2">Select Course</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Select Course</label>
                 <button
                   onClick={() => setShowCourseDropdown(!showCourseDropdown)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                 >
                   <span className={course ? 'text-gray-900' : 'text-gray-400'}>
                     {course || ''}
@@ -567,10 +569,10 @@ function RegisterStudentModal({ onClose }: { onClose: () => void }) {
                 </button>
               </div>
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                 <button
                   onClick={() => setShowLevelDropdown(!showLevelDropdown)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                 >
                   <span className={learningLevel ? 'text-gray-900' : 'text-gray-400'}>
                     {learningLevel || ''}
@@ -581,12 +583,12 @@ function RegisterStudentModal({ onClose }: { onClose: () => void }) {
             </div>
 
             {/* Payment Type, Amount Paid, Balance */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-900 mb-2">Payment Type</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Payment Type</label>
                 <button
                   onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                 >
                   <span className={paymentType ? 'text-gray-900' : 'text-gray-400'}>
                     {paymentType || ''}
@@ -595,35 +597,35 @@ function RegisterStudentModal({ onClose }: { onClose: () => void }) {
                 </button>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Amount Paid</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Amount Paid</label>
                 <input
                   type="text"
                   value={amountPaid}
                   onChange={(e) => setAmountPaid(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Balance</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Balance</label>
                 <input
                   type="text"
                   value={balance}
                   onChange={(e) => setBalance(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3 mt-8">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-6 sm:mt-8">
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
-            <button className="px-6 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors">
+            <button className="px-4 sm:px-6 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors order-1 sm:order-2">
               Register Student
             </button>
           </div>
@@ -638,90 +640,90 @@ function StudentDetailsModal({ student, onClose, onEdit }: { student: Student; o
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Student Details</h2>
-              <p className="text-sm text-gray-500">Create and publish a newsletter for your audience</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Student Details</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Create and publish a newsletter for your audience</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           {/* Details */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Full Name and Registration Date */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Full Name</label>
-                <div className="text-sm text-gray-900">Ifiok Success</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Full Name</label>
+                <div className="text-xs sm:text-sm text-gray-900">Ifiok Success</div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Registration Date</label>
-                <div className="text-sm text-gray-900">{student.registrationDate}</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Registration Date</label>
+                <div className="text-xs sm:text-sm text-gray-900">{student.registrationDate}</div>
               </div>
             </div>
 
             {/* Email and Phone */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Email Address</label>
-                <div className="text-sm text-gray-900">{student.email}</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Email Address</label>
+                <div className="text-xs sm:text-sm text-gray-900">{student.email}</div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Phone Number</label>
-                <div className="text-sm text-gray-900">{student.phone}</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Phone Number</label>
+                <div className="text-xs sm:text-sm text-gray-900">{student.phone}</div>
               </div>
             </div>
 
             {/* Course and Learning Level */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Course</label>
-                <div className="text-sm text-gray-900">{student.course}</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course</label>
+                <div className="text-xs sm:text-sm text-gray-900">{student.course}</div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
-                <div className="text-sm text-gray-900">{student.learningLevel}</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                <div className="text-xs sm:text-sm text-gray-900">{student.learningLevel}</div>
               </div>
             </div>
 
             {/* Payment Type and Amount Paid */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Payment Type</label>
-                <div className="text-sm text-gray-900">{student.paymentType}</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Payment Type</label>
+                <div className="text-xs sm:text-sm text-gray-900">{student.paymentType}</div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Amount Paid</label>
-                <div className="text-sm text-gray-900">{student.amountPaid}</div>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Amount Paid</label>
+                <div className="text-xs sm:text-sm text-gray-900">{student.amountPaid}</div>
               </div>
             </div>
 
             {/* Balance */}
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Balance</label>
-              <div className="text-sm text-gray-900">{student.balance}</div>
+              <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Balance</label>
+              <div className="text-xs sm:text-sm text-gray-900">{student.balance}</div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3 mt-8">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-6 sm:mt-8">
             <button
               onClick={() => onEdit(student)}
-              className="flex items-center gap-2 px-6 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors"
+              className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors order-1 sm:order-1"
             >
               <Edit className="w-4 h-4" />
               Edit Student
             </button>
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-2"
             >
               Close
             </button>
@@ -747,7 +749,6 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
   const [showPaymentDropdown, setShowPaymentDropdown] = useState(false);
 
   const handleSave = () => {
-    // Here you would typically update the student data
     console.log('Updated student data:', {
       firstName,
       lastName,
@@ -766,74 +767,74 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Edit Student</h2>
-              <p className="text-sm text-gray-500">Update student information</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Edit Student</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Update student information</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           {/* Form */}
-          <div className="space-y-5">
+          <div className="space-y-4 sm:space-y-5">
             {/* First Name and Last Name */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">First Name</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">First Name</label>
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Last Name</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Last Name</label>
                 <input
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
             </div>
 
             {/* Email and Phone */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Email Address</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Email Address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Phone Number</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Phone Number</label>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
             </div>
 
             {/* Course and Learning Level */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-900 mb-2">Select Course</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Select Course</label>
                 <button
                   onClick={() => setShowCourseDropdown(!showCourseDropdown)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                 >
                   <span className={course ? 'text-gray-900' : 'text-gray-400'}>
                     {course || 'Select course'}
@@ -849,7 +850,7 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
                           setCourse(courseOption);
                           setShowCourseDropdown(false);
                         }}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                       >
                         {courseOption}
                       </button>
@@ -858,10 +859,10 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
                 )}
               </div>
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                 <button
                   onClick={() => setShowLevelDropdown(!showLevelDropdown)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                 >
                   <span className={learningLevel ? 'text-gray-900' : 'text-gray-400'}>
                     {learningLevel || 'Select level'}
@@ -877,7 +878,7 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
                           setLearningLevel(levelOption);
                           setShowLevelDropdown(false);
                         }}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                       >
                         {levelOption}
                       </button>
@@ -888,12 +889,12 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
             </div>
 
             {/* Payment Type, Amount Paid, Balance */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-900 mb-2">Payment Type</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Payment Type</label>
                 <button
                   onClick={() => setShowPaymentDropdown(!showPaymentDropdown)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                 >
                   <span className={paymentType ? 'text-gray-900' : 'text-gray-400'}>
                     {paymentType || 'Select type'}
@@ -909,7 +910,7 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
                           setPaymentType(paymentOption);
                           setShowPaymentDropdown(false);
                         }}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                        className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                       >
                         {paymentOption}
                       </button>
@@ -918,37 +919,37 @@ function EditStudentModal({ student, onClose }: { student: Student; onClose: () 
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Amount Paid</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Amount Paid</label>
                 <input
                   type="text"
                   value={amountPaid}
                   onChange={(e) => setAmountPaid(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Balance</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Balance</label>
                 <input
                   type="text"
                   value={balance}
                   onChange={(e) => setBalance(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                 />
               </div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3 mt-8">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-6 sm:mt-8">
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
             <button 
               onClick={handleSave}
-              className="px-6 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors order-1 sm:order-2"
             >
               Save Changes
             </button>
@@ -968,58 +969,58 @@ function GraduateConfirmationModal({ student, onClose, onConfirm }: {
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-md relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Graduate Student</h2>
-              <p className="text-sm text-gray-500">Are you sure you want to graduate this student?</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Graduate Student</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Are you sure you want to graduate this student?</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           {/* Student Info */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-gray-900 mb-2">{student.name}</h3>
+          <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2">{student.name}</h3>
             <div className="space-y-1">
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Email:</span> {student.email}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Course:</span> {student.course}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Learning Level:</span> {student.learningLevel}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Current Status:</span> {student.isGraduated ? 'Graduated' : 'Active'}
               </p>
             </div>
           </div>
 
           {/* Success Message */}
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-green-800">
+          <div className="bg-green-50 border border-green-200 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-green-800">
               <strong>Success!</strong> This student will receive a graduation certificate and can access their transcript.
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
             <button
               onClick={onConfirm}
-              className="px-6 py-3 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-green-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-green-700 transition-colors order-1 sm:order-2"
             >
               Graduate Student
             </button>
@@ -1040,48 +1041,48 @@ function SuspendStudentConfirmationModal({ student, onClose, onConfirm }: {
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-md relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">
                 {isCurrentlySuspended ? 'Unsuspend Student' : 'Suspend Student'}
               </h2>
-              <p className="text-sm text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-500">
                 Are you sure you want to {isCurrentlySuspended ? 'unsuspend' : 'suspend'} this student?
               </p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           {/* Student Info */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-gray-900 mb-2">{student.name}</h3>
+          <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2">{student.name}</h3>
             <div className="space-y-1">
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Email:</span> {student.email}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Course:</span> {student.course}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Current Status:</span> {isCurrentlySuspended ? 'Suspended' : 'Active'}
               </p>
             </div>
           </div>
 
           {/* Warning Message */}
-          <div className={`rounded-lg p-4 mb-6 ${
+          <div className={`rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 ${
             isCurrentlySuspended 
               ? 'bg-green-50 border border-green-200' 
               : 'bg-orange-50 border border-orange-200'
           }`}>
-            <p className={`text-sm ${
+            <p className={`text-xs sm:text-sm ${
               isCurrentlySuspended ? 'text-green-800' : 'text-orange-800'
             }`}>
               <strong>
@@ -1095,16 +1096,16 @@ function SuspendStudentConfirmationModal({ student, onClose, onConfirm }: {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
             <button
               onClick={onConfirm}
-              className={`px-6 py-3 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-medium transition-colors order-1 sm:order-2 ${
                 isCurrentlySuspended
                   ? 'bg-green-600 text-white hover:bg-green-700'
                   : 'bg-orange-600 text-white hover:bg-orange-700'
@@ -1128,58 +1129,58 @@ function DeleteStudentConfirmationModal({ student, onClose, onConfirm }: {
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-md relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Delete Student</h2>
-              <p className="text-sm text-gray-500">Are you sure you want to delete this student?</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Delete Student</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Are you sure you want to delete this student?</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           {/* Student Info */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-gray-900 mb-2">{student.name}</h3>
+          <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2">{student.name}</h3>
             <div className="space-y-1">
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Email:</span> {student.email}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Course:</span> {student.course}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Payment Type:</span> {student.paymentType}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Amount Paid:</span> {student.amountPaid}
               </p>
             </div>
           </div>
 
           {/* Warning Message */}
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-red-800">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-red-800">
               <strong>Warning:</strong> This action cannot be undone. All student data, including course enrollments, progress records, and payment history, will be permanently deleted.
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
             <button
               onClick={onConfirm}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors order-1 sm:order-2"
             >
               Delete Student
             </button>

@@ -79,16 +79,16 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Edit Course</h2>
-              <p className="text-sm text-gray-500">Update course information</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Edit Course</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Update course information</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
@@ -96,47 +96,47 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
 
           {/* Step 1 Form */}
           {step === 1 && (
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               {/* Course Title and Subtitle */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Title</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Title</label>
                   <input
                     type="text"
                     value={courseTitle}
                     onChange={(e) => setCourseTitle(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Subtitle text</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Subtitle text</label>
                   <input
                     type="text"
                     value={subtitleText}
                     onChange={(e) => setSubtitleText(e.target.value)}
                     placeholder="Type text text text text text text"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Duration and Course Format */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Duration (Weeks)</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Duration (Weeks)</label>
                   <input
                     type="text"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     placeholder="6 weeks"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Format</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Format</label>
                   <button
                     onClick={() => setShowFormatDropdown(!showFormatDropdown)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
                     <span className={courseFormat ? 'text-gray-900' : 'text-gray-400'}>
                       {courseFormat || 'In-person and Online'}
@@ -147,12 +147,12 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
               </div>
 
               {/* Learning Level and Course Description */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                   <button
                     onClick={() => setShowLevelDropdown(!showLevelDropdown)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
                     <span className={learningLevel ? 'text-gray-900' : 'text-gray-400'}>
                       {learningLevel || 'Select All Three'}
@@ -161,22 +161,22 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
                   </button>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Description</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Description</label>
                   <input
                     type="text"
                     value={courseDescription}
                     onChange={(e) => setCourseDescription(e.target.value)}
                     placeholder="Type text text text text text text"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Action Button */}
-              <div className="flex justify-end mt-8">
+              <div className="flex justify-end mt-6 sm:mt-8">
                 <button
                   onClick={handleContinue}
-                  className="px-8 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors"
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors"
                 >
                   Continue
                 </button>
@@ -186,10 +186,10 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
 
           {/* Step 2 Form */}
           {step === 2 && (
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               {/* What you'll learn */}
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">What you'll learn</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">What you'll learn</label>
                 {whatYouLearn.map((field, index) => (
                   <div key={index} className="flex items-center gap-2 mb-3">
                     <input
@@ -197,12 +197,12 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
                       value={field}
                       onChange={(e) => updateWhatYouLearnField(index, e.target.value)}
                       placeholder="e.g. Introduction to UI/UX"
-                      className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                      className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                     />
                     {index > 0 && (
                       <button
                         onClick={() => removeWhatYouLearnField(index)}
-                        className="text-red-600 hover:text-red-700 text-sm font-medium"
+                        className="text-red-600 hover:text-red-700 text-xs sm:text-sm font-medium whitespace-nowrap"
                       >
                         Remove
                       </button>
@@ -211,20 +211,20 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
                 ))}
                 <button
                   onClick={addWhatYouLearnField}
-                  className="text-[#005F87] hover:text-[#004A6B] text-sm font-medium flex items-center gap-1"
+                  className="text-[#005F87] hover:text-[#004A6B] text-xs sm:text-sm font-medium flex items-center gap-1"
                 >
-                  <span className="text-lg">+</span>
+                  <span className="text-base sm:text-lg">+</span>
                   <span>Add Another What you'll learn</span>
                 </button>
               </div>
 
               {/* Learning Level and Pricing */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                   <button
                     onClick={() => setShowLevelStep2Dropdown(!showLevelStep2Dropdown)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
                     <span className={learningLevelStep2 ? 'text-gray-900' : 'text-gray-400'}>
                       {learningLevelStep2 || 'Select Level'}
@@ -233,39 +233,39 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
                   </button>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Pricing</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Pricing</label>
                   <input
                     type="text"
                     value={pricing}
                     onChange={(e) => setPricing(e.target.value)}
                     placeholder="Type text text text text text text"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* What is Included */}
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">What is Included</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">What is Included</label>
                 <textarea
                   value={whatIncluded}
                   onChange={(e) => setWhatIncluded(e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
                 />
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-end gap-3 mt-8">
+              <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-6 sm:mt-8">
                 <button
                   onClick={onClose}
-                  className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
-                  className="px-6 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors order-1 sm:order-2"
                 >
                   Save Changes
                 </button>
@@ -283,55 +283,55 @@ function DeleteConfirmationModal({ course, onClose, onConfirm }: { course: Cours
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-md relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Delete Course</h2>
-              <p className="text-sm text-gray-500">Are you sure you want to delete this course?</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Delete Course</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Are you sure you want to delete this course?</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 
           {/* Course Info */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-gray-900 mb-2">{course.title}</h3>
+          <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2">{course.title}</h3>
             <div className="space-y-1">
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Status:</span> {course.status}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Category:</span> {course.category}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Date:</span> {course.date}
               </p>
             </div>
           </div>
 
           {/* Warning Message */}
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-sm text-red-800">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-red-800">
               <strong>Warning:</strong> This action cannot be undone. All course data, including student enrollments and progress, will be permanently deleted.
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end gap-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
             <button
               onClick={onConfirm}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors order-1 sm:order-2"
             >
               Delete Course
             </button>
@@ -407,24 +407,26 @@ export default function CoursesPage() {
   return (
     <div className="flex-1 overflow-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Courses</h1>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Courses</h1>
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={() => setShowRegisterModal(true)}
-            className="flex items-center gap-2 bg-[#005F87] text-white px-4 py-2.5 rounded-lg hover:bg-[#004A6B] transition-colors"
+            className="flex items-center justify-center gap-2 bg-[#005F87] text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:bg-[#004A6B] transition-colors flex-1 sm:flex-initial"
           >
-            <span className="text-xl">+</span>
-            <span className="text-sm font-medium">Add New Course</span>
+            <span className="text-lg sm:text-xl">+</span>
+            <span className="text-xs sm:text-sm font-medium">Add New Course</span>
           </button>
-          <Notifications />
+          {/* <div className="hidden sm:block"> */}
+            <Notifications />
+          {/* </div> */}
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {/* Total Courses */}
-        <div className="bg-white rounded-[16px] p-6 shadow-sm">
+        <div className="bg-white rounded-[16px] p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
               <CheckCircle2 className="w-5 h-5 text-green-600" />
@@ -434,11 +436,11 @@ export default function CoursesPage() {
             </div>
           </div>
           <p className="text-sm font-normal text-[#6B7280] mb-2">Total Courses</p>
-          <p className="text-[32px] font-semibold text-gray-900">20</p>
+          <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">20</p>
         </div>
 
         {/* Ongoing */}
-        <div className="bg-white rounded-[16px] p-6 shadow-sm">
+        <div className="bg-white rounded-[16px] p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
               <XCircle className="w-5 h-5 text-red-600" />
@@ -448,11 +450,11 @@ export default function CoursesPage() {
             </div>
           </div>
           <p className="text-sm font-normal text-[#6B7280] mb-2">Ongoing</p>
-          <p className="text-[32px] font-semibold text-gray-900">100</p>
+          <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">100</p>
         </div>
 
         {/* Ended */}
-        <div className="bg-white rounded-[16px] p-6 shadow-sm">
+        <div className="bg-white rounded-[16px] p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center">
               <CheckCircle2 className="w-5 h-5 text-gray-600" />
@@ -462,31 +464,31 @@ export default function CoursesPage() {
             </div>
           </div>
           <p className="text-sm font-normal text-[#6B7280] mb-2">Ended</p>
-          <p className="text-[32px] font-semibold text-gray-900">12</p>
+          <p className="text-2xl sm:text-[32px] font-semibold text-gray-900">12</p>
         </div>
       </div>
 
       {/* Table Section */}
       <div className="bg-white rounded-xl border border-gray-200">
         {/* Search and Filters */}
-        <div className="p-4 flex items-center gap-4 border-b border-gray-200">
-          <div className="flex-1 relative bg-white rounded-[10px]">
-            <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+        <div className="p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 border-b border-gray-200">
+          <div className="flex-1 relative bg-[#F9F9FB] rounded-[10px]">
+            <Search className="w-4 sm:w-5 h-4 sm:h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search for Course..."
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-gray-200 focus:outline-none focus:ring-1 focus:ring-[#005F87] focus:border-transparent"
+              className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm rounded-[10px] focus:outline-none focus:ring-1 focus:ring-[#005F87] focus:border-transparent"
             />
           </div>
-          <div className="flex items-center gap-3">
-            <div className="relative">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="relative flex-1 sm:flex-initial">
               <button
                 onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-[10px] border border-gray-200 bg-white transition-colors min-w-[130px] justify-between"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[10px] bg-[#F9F9FB] transition-colors w-full sm:min-w-[130px] justify-between"
               >
-                <span className="text-sm text-gray-600">{categoryFilter}</span>
+                <span className="text-xs sm:text-sm text-gray-600">{categoryFilter}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
               {showCategoryDropdown && (
@@ -495,7 +497,7 @@ export default function CoursesPage() {
                     <button
                       key={category}
                       onClick={() => handleCategoryChange(category)}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                      className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                     >
                       {category}
                     </button>
@@ -503,12 +505,12 @@ export default function CoursesPage() {
                 </div>
               )}
             </div>
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-initial">
               <button
                 onClick={() => setShowStatusDropdown(!showStatusDropdown)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-[10px] border border-gray-200 bg-white transition-colors min-w-[130px] justify-between"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-[10px] bg-[#F9F9FB] transition-colors w-full sm:min-w-[130px] justify-between"
               >
-                <span className="text-sm text-gray-600">{statusFilter}</span>
+                <span className="text-xs sm:text-sm text-gray-600">{statusFilter}</span>
                 <ChevronDown className="w-4 h-4 text-gray-600" />
               </button>
               {showStatusDropdown && (
@@ -517,7 +519,7 @@ export default function CoursesPage() {
                     <button
                       key={status}
                       onClick={() => handleStatusChange(status)}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
+                      className="w-full text-left px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg"
                     >
                       {status}
                     </button>
@@ -530,12 +532,13 @@ export default function CoursesPage() {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[500px]">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Course Title</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Status</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-600">Date</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Course Title</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Status</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Date</th>
+                <th className="text-left px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-600">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -544,17 +547,17 @@ export default function CoursesPage() {
                   key={course.id}
                   className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                 >
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900">{course.title}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm text-gray-900">{course.title}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm font-medium text-green-600">{course.status}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm font-medium text-green-600">{course.status}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-900">{course.date}</span>
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <span className="text-xs sm:text-sm text-gray-900">{course.date}</span>
                   </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
+                  <td className="px-3 sm:px-6 py-3 sm:py-4">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <button 
                         onClick={() => handleEditCourse(course)}
                         className="p-1.5 hover:bg-gray-100 rounded transition-colors"
@@ -645,16 +648,16 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-white rounded-[20px] w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-10">
-        <div className="p-8">
+        <div className="p-4 sm:p-6 md:p-8">
           {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">Register New Course</h2>
-              <p className="text-sm text-gray-500">Create and publish a new blog post for your audience</p>
+          <div className="flex items-start justify-between mb-4 sm:mb-6 gap-4">
+            <div className="flex-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">Register New Course</h2>
+              <p className="text-xs sm:text-sm text-gray-500">Create and publish a new blog post for your audience</p>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
@@ -662,48 +665,48 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
 
           {/* Step 1 Form */}
           {step === 1 && (
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               {/* Course Title and Subtitle */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Title</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Title</label>
                   <input
                     type="text"
                     value={courseTitle}
                     onChange={(e) => setCourseTitle(e.target.value)}
                     placeholder="UI/UX Fundamental"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Subtitle text</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Subtitle text</label>
                   <input
                     type="text"
                     value={subtitleText}
                     onChange={(e) => setSubtitleText(e.target.value)}
                     placeholder="Type text text text text text text"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Duration and Course Format */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Duration (Weeks)</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Duration (Weeks)</label>
                   <input
                     type="text"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
                     placeholder="6 weeks"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Format</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Format</label>
                   <button
                     onClick={() => setShowFormatDropdown(!showFormatDropdown)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
                     <span className={courseFormat ? 'text-gray-900' : 'text-gray-400'}>
                       {courseFormat || 'In-person and Online'}
@@ -714,12 +717,12 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Learning Level and Course Description */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                   <button
                     onClick={() => setShowLevelDropdown(!showLevelDropdown)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
                     <span className={learningLevel ? 'text-gray-900' : 'text-gray-400'}>
                       {learningLevel || 'Select All Three'}
@@ -728,22 +731,22 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
                   </button>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Description</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Description</label>
                   <input
                     type="text"
                     value={courseDescription}
                     onChange={(e) => setCourseDescription(e.target.value)}
                     placeholder="Type text text text text text text"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Action Button */}
-              <div className="flex justify-end mt-8">
+              <div className="flex justify-end mt-6 sm:mt-8">
                 <button
                   onClick={handleContinue}
-                  className="px-8 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors"
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors"
                 >
                   Continue
                 </button>
@@ -753,10 +756,10 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
 
           {/* Step 2 Form */}
           {step === 2 && (
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               {/* What you'll learn */}
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">What you'll learn</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">What you'll learn</label>
                 {whatYouLearn.map((field, index) => (
                   <div key={index} className="flex items-center gap-2 mb-3">
                     <input
@@ -764,12 +767,12 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
                       value={field}
                       onChange={(e) => updateWhatYouLearnField(index, e.target.value)}
                       placeholder="e.g. Introduction to UI/UX"
-                      className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                      className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                     />
                     {index > 0 && (
                       <button
                         onClick={() => removeWhatYouLearnField(index)}
-                        className="text-red-600 hover:text-red-700 text-sm font-medium"
+                        className="text-red-600 hover:text-red-700 text-xs sm:text-sm font-medium whitespace-nowrap"
                       >
                         Remove
                       </button>
@@ -778,20 +781,20 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
                 ))}
                 <button
                   onClick={addWhatYouLearnField}
-                  className="text-[#005F87] hover:text-[#004A6B] text-sm font-medium flex items-center gap-1"
+                  className="text-[#005F87] hover:text-[#004A6B] text-xs sm:text-sm font-medium flex items-center gap-1"
                 >
-                  <span className="text-lg">+</span>
+                  <span className="text-base sm:text-lg">+</span>
                   <span>Add Another What you'll learn</span>
                 </button>
               </div>
 
               {/* Learning Level and Pricing */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                   <button
                     onClick={() => setShowLevelStep2Dropdown(!showLevelStep2Dropdown)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
                     <span className={learningLevelStep2 ? 'text-gray-900' : 'text-gray-400'}>
                       {learningLevelStep2 || 'Select Level'}
@@ -800,33 +803,33 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
                   </button>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Pricing</label>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Pricing</label>
                   <input
                     type="text"
                     value={pricing}
                     onChange={(e) => setPricing(e.target.value)}
                     placeholder="Type text text text text text text"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* What is Included */}
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">What is Included</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">What is Included</label>
                 <textarea
                   value={whatIncluded}
                   onChange={(e) => setWhatIncluded(e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
                 />
               </div>
 
               {/* Action Button */}
-              <div className="flex justify-end mt-8">
+              <div className="flex justify-end mt-6 sm:mt-8">
                 <button
                   onClick={handleRegister}
-                  className="px-8 py-3 bg-[#005F87] text-white rounded-lg text-sm font-medium hover:bg-[#004A6B] transition-colors"
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors"
                 >
                   Register
                 </button>
