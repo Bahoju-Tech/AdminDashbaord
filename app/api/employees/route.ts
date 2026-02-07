@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     const generatedEmployeeId = `EMP${Date.now().toString().slice(-6)}`;
     
     // Generate unique profile URL
-    const profileUrl = `https://bahojutech-employeeprofile.netlify.app/employee/${generatedEmployeeId}`;
+    const profileUrl = `https://bahojutech-employeeprofile.netlify.app/${generatedEmployeeId}`;
     
     console.log('Generated profileUrl:', profileUrl);
     
