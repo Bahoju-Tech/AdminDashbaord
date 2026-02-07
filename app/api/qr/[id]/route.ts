@@ -4,10 +4,10 @@ import path from 'path';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await context.params;
     
     // Read the QR code file from the public directory
     const qrCodePath = path.join(process.cwd(), 'public', 'qr-codes', `${id}.png`);
