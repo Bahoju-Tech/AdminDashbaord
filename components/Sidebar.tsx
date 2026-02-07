@@ -29,6 +29,7 @@ export default function Sidebar() {
     { name: 'Institute', path: '/Dashbaord/institute', icon: Building2 },
     { name: 'Instructors', path: '/Dashbaord/instructors', icon: Users },
     { name: 'Courses', path: '/Dashbaord/courses', icon: BookOpen },
+    { name: 'Employees', path: '/Dashbaord/employees', icon: Users },
   ];
 
   const logout = () => {
