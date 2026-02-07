@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import Employee from '@/models/Employee';
 import QRCode from 'qrcode';
-import fs from 'fs';
-import path from 'path';
 
 // GET all employees
 export async function GET() {
@@ -43,7 +41,7 @@ export async function POST(request: NextRequest) {
     
     console.log('Generated profileUrl:', profileUrl);
     
-    // Generate QR code and save as file
+    // Generate QR code as base64 data URL
     const qrCodeBuffer = await QRCode.toBuffer(profileUrl, {
       width: 300,
       margin: 2,
@@ -53,22 +51,11 @@ export async function POST(request: NextRequest) {
       }
     });
     
-    // Create qr-codes directory if it doesn't exist
-    const qrCodesDir = path.join(process.cwd(), 'public', 'qr-codes');
-    if (!fs.existsSync(qrCodesDir)) {
-      fs.mkdirSync(qrCodesDir, { recursive: true });
-    }
-    
-    // Save QR code as file
-    const qrCodeFileName = `${generatedEmployeeId}.png`;
-    const qrCodeFilePath = path.join(qrCodesDir, qrCodeFileName);
-    fs.writeFileSync(qrCodeFilePath, qrCodeBuffer);
-    
-    // Return the URL to the QR code file
-    const qrCodeUrl = `/qr-codes/${qrCodeFileName}`;
+    // Convert QR code to base64 data URL
+    const qrCodeBase64 = qrCodeBuffer.toString('base64');
+    const qrCodeUrl = `data:image/png;base64,${qrCodeBase64}`;
     
     console.log('Generated QR code, length:', qrCodeBuffer.length);
-    console.log('QR code saved to:', qrCodeFilePath);
     
     // Create employee with generated data
     const newEmployee = new Employee({
