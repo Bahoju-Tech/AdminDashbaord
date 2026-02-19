@@ -1,0 +1,1 @@
+export const BASEURL = 'https://bahojutech-backend-5eu2.onrender.com/api';

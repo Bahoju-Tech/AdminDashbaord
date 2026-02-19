@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import {
   CheckCircle2,
   XCircle,
@@ -16,65 +17,106 @@ import {
   Trash2
 } from 'lucide-react';
 import Notifications from '@/components/Notificationpanel';
+import { BASEURL } from '@/config';
+import { set } from 'mongoose';
 
 interface Course {
-  id: number;
-  title: string;
+  _id: string;
+  courseTitle: string;
   status: string;
-  date: string;
+  createdAt: string;
   category: string;
+  subtitleText?: string;
+  duration?: string;
+  courseFormat?: string;
+  learningLevel?: string;
+  courseDescription?: string;
+  pricing?: string;
+  whatIncludes?: string;
+  whatYouWillLearn?: string[];
 }
 
 function EditCourseModal({ course, onClose }: { course: Course; onClose: () => void }) {
   const [step, setStep] = useState(1);
-  const [courseTitle, setCourseTitle] = useState(course.title);
-  const [subtitleText, setSubtitleText] = useState('');
-  const [duration, setDuration] = useState('');
-  const [courseFormat, setCourseFormat] = useState('');
-  const [learningLevel, setLearningLevel] = useState('');
-  const [courseDescription, setCourseDescription] = useState('');
-  const [whatYouLearn, setWhatYouLearn] = useState(['']);
-  const [learningLevelStep2, setLearningLevelStep2] = useState('');
-  const [pricing, setPricing] = useState('');
-  const [whatIncluded, setWhatIncluded] = useState('');
+  const [courseTitle, setCourseTitle] = useState(course.courseTitle);
+  const [subtitleText, setSubtitleText] = useState(course.subtitleText || '');
+  const [duration, setDuration] = useState(course.duration || '');
+  const [courseFormat, setCourseFormat] = useState(course.courseFormat || '');
+  const [learningLevel, setLearningLevel] = useState(course.learningLevel || '');
+  const [courseDescription, setCourseDescription] = useState(course.courseDescription || '');
+  const [whatYouWillLearn, setWhatYouWillLearn] = useState(course.whatYouWillLearn || ['']);
+  const [pricing, setPricing] = useState(course.pricing || '');
+  const [status, setStatus] = useState(course.status || '');
+  const [whatIncluded, setWhatIncluded] = useState(course.whatIncludes || '');
   const [showFormatDropdown, setShowFormatDropdown] = useState(false);
   const [showLevelDropdown, setShowLevelDropdown] = useState(false);
   const [showLevelStep2Dropdown, setShowLevelStep2Dropdown] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const learningLevelRef = useRef<HTMLDivElement>(null);
+  const courseFormatRef = useRef<HTMLDivElement>(null);
+  const courseFormats = ['In person and Online', 'In person', 'Online'];
+  const categories = ['development', 'design', 'marketing']
+  const learningLevels = ["Beginner", "Intermidiate", "Advanced"];
+
 
   const handleContinue = () => {
     setStep(2);
   };
 
-  const handleSave = () => {
-    console.log('Updated course:', {
-      ...course,
-      title: courseTitle,
-      subtitleText,
-      duration,
-      courseFormat,
-      learningLevel,
-      courseDescription,
-      whatYouLearn,
-      learningLevelStep2,
-      pricing,
-      whatIncluded
-    });
-    onClose();
+  const handleSave = async () => {
+    setIsSubmitting(true);
+
+    try {
+      const courseData = {
+        courseTitle: courseTitle,
+        subtitleText: subtitleText,
+        duration: duration,
+        courseFormat: courseFormat,
+        learningLevel: learningLevel,
+        whatYouWillLearn: whatYouWillLearn.filter(item => item.trim() !== ''),
+        status: status,
+        courseDescription: courseDescription,
+        pricing: pricing,
+        whatIncludes: whatIncluded
+      };
+
+      const response = await fetch(`${BASEURL}/course/${course._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(courseData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Course updated successfully', result);
+      onClose();
+      // Refresh courses list after update
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to update course:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const addWhatYouLearnField = () => {
-    setWhatYouLearn([...whatYouLearn, '']);
+    setWhatYouWillLearn([...whatYouWillLearn, '']);
   };
 
   const removeWhatYouLearnField = (index: number) => {
-    const newFields = whatYouLearn.filter((_, i) => i !== index);
-    setWhatYouLearn(newFields);
+    const newFields = whatYouWillLearn.filter((_, i) => i !== index);
+    setWhatYouWillLearn(newFields);
   };
 
   const updateWhatYouLearnField = (index: number, value: string) => {
-    const newFields = [...whatYouLearn];
+    const newFields = [...whatYouWillLearn];
     newFields[index] = value;
-    setWhatYouLearn(newFields);
+    setWhatYouWillLearn(newFields);
   };
 
   return (
@@ -134,33 +176,47 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
-                <div className="relative">
-                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Format</label>
+                <div ref={courseFormatRef} className="relative">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Format</label>
                   <button
-                    onClick={() => setShowFormatDropdown(!showFormatDropdown)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    onClick={() => setShowFormatDropdown(true)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
-                    <span className={courseFormat ? 'text-gray-900' : 'text-gray-400'}>
-                      {courseFormat || 'In-person and Online'}
+                    <span className={courseFormats ? 'text-gray-900' : 'text-gray-400'}>
+                      {courseFormat || ''}
                     </span>
                     <ChevronDown className="w-5 h-5 text-gray-400" />
                   </button>
+
+                  {showFormatDropdown && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                      {courseFormats.map((cat) => (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setCourseFormat(cat);
+                            setShowFormatDropdown(false);
+                          }}
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                        >
+                          <span className="text-sm text-gray-900">{cat}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Learning Level and Course Description */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div className="relative">
-                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
-                  <button
-                    onClick={() => setShowLevelDropdown(!showLevelDropdown)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
-                  >
-                    <span className={learningLevel ? 'text-gray-900' : 'text-gray-400'}>
-                      {learningLevel || 'Select All Three'}
-                    </span>
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
-                  </button>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">What is Included</label>
+                  <textarea
+                    value={whatIncluded}
+                    onChange={(e) => setWhatIncluded(e.target.value)}
+                    rows={4}
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent resize-none"
+                  />
                 </div>
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Description</label>
@@ -192,7 +248,7 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
               {/* What you'll learn */}
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">What you'll learn</label>
-                {whatYouLearn.map((field, index) => (
+                {whatYouWillLearn.map((field, index) => (
                   <div key={index} className="flex items-center gap-2 mb-3">
                     <input
                       type="text"
@@ -222,17 +278,34 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
 
               {/* Learning Level and Pricing */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div className="relative">
-                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                <div ref={learningLevelRef} className="relative">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                   <button
-                    onClick={() => setShowLevelStep2Dropdown(!showLevelStep2Dropdown)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    onClick={() => setShowLevelDropdown(true)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
-                    <span className={learningLevelStep2 ? 'text-gray-900' : 'text-gray-400'}>
-                      {learningLevelStep2 || 'Select Level'}
+                    <span className={categories ? 'text-gray-900' : 'text-gray-400'}>
+                      {status || ''}
                     </span>
                     <ChevronDown className="w-5 h-5 text-gray-400" />
                   </button>
+
+                  {showLevelDropdown && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                      {categories.map((cat) => (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setLearningLevel(cat);
+                            setShowLevelDropdown(false);
+                          }}
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                        >
+                          <span className="text-sm text-gray-900">{cat}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Pricing</label>
@@ -269,7 +342,9 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
                   onClick={handleSave}
                   className="px-4 sm:px-6 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors order-1 sm:order-2"
                 >
-                  Save Changes
+                  {
+                    isSubmitting ? 'Saving...' : 'Save Changes'
+                  }
                 </button>
               </div>
             </div>
@@ -281,6 +356,17 @@ function EditCourseModal({ course, onClose }: { course: Course; onClose: () => v
 }
 
 function DeleteConfirmationModal({ course, onClose, onConfirm }: { course: Course; onClose: () => void; onConfirm: () => void }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsSubmitting(true);
+    try {
+      await onConfirm();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
@@ -302,7 +388,7 @@ function DeleteConfirmationModal({ course, onClose, onConfirm }: { course: Cours
 
           {/* Course Info */}
           <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
-            <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2">{course.title}</h3>
+            <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2">{course.courseTitle}</h3>
             <div className="space-y-1">
               <p className="text-xs sm:text-sm text-gray-600">
                 <span className="font-medium">Status:</span> {course.status}
@@ -311,7 +397,7 @@ function DeleteConfirmationModal({ course, onClose, onConfirm }: { course: Cours
                 <span className="font-medium">Category:</span> {course.category}
               </p>
               <p className="text-xs sm:text-sm text-gray-600">
-                <span className="font-medium">Date:</span> {course.date}
+                <span className="font-medium">Date:</span> {new Date(course.createdAt).toLocaleDateString()}
               </p>
             </div>
           </div>
@@ -332,10 +418,11 @@ function DeleteConfirmationModal({ course, onClose, onConfirm }: { course: Cours
               Cancel
             </button>
             <button
-              onClick={onConfirm}
-              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors order-1 sm:order-2"
+              onClick={handleDelete}
+              disabled={isSubmitting}
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors order-1 sm:order-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Delete Course
+              {isSubmitting ? 'Deleting...' : 'Delete Course'}
             </button>
           </div>
         </div>
@@ -356,18 +443,48 @@ export default function CoursesPage() {
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // Sample course data
-  const courses: Course[] = [
-    { id: 1, title: 'UI/UX Principle Fundamental', status: 'Active', date: '07 Oct 2024', category: 'Design' },
-    { id: 2, title: 'Web Development Basics', status: 'Active', date: '08 Oct 2024', category: 'Development' },
-    { id: 3, title: 'Mobile App Design', status: 'Draft', date: '09 Oct 2024', category: 'Design' },
-    { id: 4, title: 'React Advanced Concepts', status: 'Active', date: '10 Oct 2024', category: 'Development' },
-    { id: 5, title: 'Database Management', status: 'Archived', date: '11 Oct 2024', category: 'Development' },
-    { id: 6, title: 'Digital Marketing', status: 'Active', date: '12 Oct 2024', category: 'Marketing' },
-    { id: 7, title: 'Cloud Computing Fundamentals', status: 'Draft', date: '13 Oct 2024', category: 'Development' },
-    { id: 8, title: 'Graphic Design Masterclass', status: 'Active', date: '14 Oct 2024', category: 'Design' }
-  ];
+  // const courses: Course[] = [
+  //   { id: 1, title: 'UI/UX Principle Fundamental', status: 'Active', date: '07 Oct 2024', category: 'Design' },
+  //   { id: 2, title: 'Web Development Basics', status: 'Active', date: '08 Oct 2024', category: 'Development' },
+  //   { id: 3, title: 'Mobile App Design', status: 'Draft', date: '09 Oct 2024', category: 'Design' },
+  //   { id: 4, title: 'React Advanced Concepts', status: 'Active', date: '10 Oct 2024', category: 'Development' },
+  //   { id: 5, title: 'Database Management', status: 'Archived', date: '11 Oct 2024', category: 'Development' },
+  //   { id: 6, title: 'Digital Marketing', status: 'Active', date: '12 Oct 2024', category: 'Marketing' },
+  //   { id: 7, title: 'Cloud Computing Fundamentals', status: 'Draft', date: '13 Oct 2024', category: 'Development' },
+  //   { id: 8, title: 'Graphic Design Masterclass', status: 'Active', date: '14 Oct 2024', category: 'Design' }
+  // ];
+
+  useEffect(() => {
+    // Fetch courses from API when component mounts
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${BASEURL}/course/create-course`);
+      // Handle successful response
+      console.log('Raw API response:', response);
+      console.log('Response data:', response.data);
+
+      // Extract courses array from response.data.data
+      const coursesData = response.data?.data || [];
+      console.log('Final courses data:', coursesData);
+      console.log('Is coursesData an array?', Array.isArray(coursesData));
+
+      setCourses(Array.isArray(coursesData) ? coursesData : []);
+    } catch (error) {
+      // Handle error
+      console.error('Error fetching courses:', error);
+      setCourses([]); // Set empty array on error
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleEditCourse = (course: Course) => {
     setSelectedCourse(course);
@@ -377,6 +494,20 @@ export default function CoursesPage() {
   const handleDeleteCourse = (course: Course) => {
     setSelectedCourse(course);
     setShowDeleteModal(true);
+    delectemyCourse();
+  };
+
+  const delectemyCourse = async () => {
+    if (!selectedCourse) return;
+    try {
+      const response = await axios.delete(`${BASEURL}/course/${selectedCourse._id}`);
+      console.log('Delete response:', response);
+
+      fetchCourses(); // Refresh the course list after deletion
+      setShowDeleteModal(false); // Close the delete confirmation modal
+    } catch (error) {
+      console.error('Failed to delete course:', error);
+    }
   };
 
   const handleCloseModals = () => {
@@ -415,18 +546,26 @@ export default function CoursesPage() {
   };
 
   // Filter courses based on search and filters
-  const filteredCourses = courses.filter(course => {
-    const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase());
+  const filteredCourses = Array.isArray(courses) ? courses.filter(course => {
+    const matchesSearch = course.courseTitle?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'All Status' || course.status === statusFilter;
     const matchesCategory = categoryFilter === 'Category' || course.category === categoryFilter;
     return matchesSearch && matchesStatus && matchesCategory;
-  });
+  }) : [];
 
   // Pagination calculations
   const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentData = filteredCourses.slice(startIndex, endIndex);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <p className="text-gray-500">Loading courses...</p>
+      </div>
+    );
+  };
 
   return (
     <div className="flex-1 overflow-auto">
@@ -442,7 +581,7 @@ export default function CoursesPage() {
             <span className="text-xs sm:text-sm font-medium">Add New Course</span>
           </button>
           {/* <div className="hidden sm:block"> */}
-            <Notifications />
+          <Notifications />
           {/* </div> */}
         </div>
       </div>
@@ -568,27 +707,27 @@ export default function CoursesPage() {
             <tbody>
               {currentData.map((course) => (
                 <tr
-                  key={course.id}
+                  key={course._id}
                   className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                 >
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
-                    <span className="text-xs sm:text-sm text-gray-900">{course.title}</span>
+                    <span className="text-xs sm:text-sm text-gray-900">{course.courseTitle}</span>
                   </td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <span className="text-xs sm:text-sm font-medium text-green-600">{course.status}</span>
                   </td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
-                    <span className="text-xs sm:text-sm text-gray-900">{course.date}</span>
+                    <span className="text-xs sm:text-sm text-gray-900">{new Date(course.createdAt).toLocaleDateString()}</span>
                   </td>
                   <td className="px-3 sm:px-6 py-3 sm:py-4">
                     <div className="flex items-center gap-2 sm:gap-3">
-                      <button 
+                      <button
                         onClick={() => handleEditCourse(course)}
                         className="p-1.5 hover:bg-gray-100 rounded transition-colors"
                       >
                         <Edit2 className="w-4 h-4 text-gray-600" />
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleDeleteCourse(course)}
                         className="p-1.5 hover:bg-gray-100 rounded transition-colors"
                       >
@@ -611,16 +750,15 @@ export default function CoursesPage() {
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${
-                currentPage === 1
-                  ? 'text-gray-300 cursor-not-allowed'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
+              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${currentPage === 1
+                ? 'text-gray-300 cursor-not-allowed'
+                : 'text-gray-600 hover:bg-gray-100'
+                }`}
             >
               <ChevronLeft className="w-4 h-4" />
               <span className="text-xs sm:text-sm hidden sm:inline">Previous</span>
             </button>
-            
+
             {/* Page Numbers */}
             <div className="flex items-center gap-1">
               {Array.from({ length: totalPages }, (_, index) => {
@@ -629,26 +767,24 @@ export default function CoursesPage() {
                   <button
                     key={pageNumber}
                     onClick={() => handlePageChange(pageNumber)}
-                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
-                      currentPage === pageNumber
-                        ? 'bg-[#005F87] text-white'
-                        : 'text-gray-600 hover:bg-gray-100'
-                    }`}
+                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-colors ${currentPage === pageNumber
+                      ? 'bg-[#005F87] text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                      }`}
                   >
                     {pageNumber}
                   </button>
                 );
               })}
             </div>
-            
+
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${
-                currentPage === totalPages
-                  ? 'text-gray-300 cursor-not-allowed'
-                  : 'text-gray-600 hover:bg-gray-100'
-              }`}
+              className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors ${currentPage === totalPages
+                ? 'text-gray-300 cursor-not-allowed'
+                : 'text-gray-600 hover:bg-gray-100'
+                }`}
             >
               <span className="text-xs sm:text-sm hidden sm:inline">Next</span>
               <ChevronRight className="w-4 h-4" />
@@ -669,11 +805,12 @@ export default function CoursesPage() {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && selectedCourse && (
-        <DeleteConfirmationModal 
-          course={selectedCourse} 
-          onClose={handleCloseModals} 
+        <DeleteConfirmationModal
+          course={selectedCourse}
+          onClose={handleCloseModals}
+          
           onConfirm={() => {
-            console.log('Deleting course:', selectedCourse.title);
+            console.log('Deleting course:', selectedCourse.courseTitle);
             handleCloseModals();
           }}
         />
@@ -689,38 +826,123 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
   const [duration, setDuration] = useState('');
   const [courseFormat, setCourseFormat] = useState('');
   const [learningLevel, setLearningLevel] = useState('');
+  const [category, setCategory] = useState('');
   const [courseDescription, setCourseDescription] = useState('');
-  const [whatYouLearn, setWhatYouLearn] = useState(['']);
-  const [learningLevelStep2, setLearningLevelStep2] = useState('');
+  const [whatYouWillLearn, setWhatYouWillLearn] = useState(['']);
   const [pricing, setPricing] = useState('');
+  const [status, setStatus] = useState('');
   const [whatIncluded, setWhatIncluded] = useState('');
   const [showFormatDropdown, setShowFormatDropdown] = useState(false);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showLevelDropdown, setShowLevelDropdown] = useState(false);
   const [showLevelStep2Dropdown, setShowLevelStep2Dropdown] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const courseFormats = ['In person and Online', 'In person', 'Online'];
+  const categories = ['development', 'design', 'marketing']
+  const learningLevels = ["Beginner", "Intermidiate", "Advanced"];
+  const courseFormatRef = useRef<HTMLDivElement>(null);
+  const learningLevelRef = useRef<HTMLDivElement>(null);
+  const categoryRef = useRef<HTMLDivElement>(null);
 
   const handleContinue = () => {
     setStep(2);
   };
 
-  const handleRegister = () => {
-    // Handle registration
-    onClose();
+  const handleRegister = async () => {
+    // Validate required fields
+    if (!courseTitle.trim()) {
+      alert('Course title is required');
+      return;
+    }
+    if (!duration.trim()) {
+      alert('Duration is required');
+      return;
+    }
+    if (!courseFormat) {
+      alert('Course format is required');
+      return;
+    }
+    if (!learningLevel) {
+      alert('Learning level is required');
+      return;
+    }
+    if (!category) {
+      alert('Category is required');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const courseData = {
+        courseTitle: courseTitle,
+        subtitleText: subtitleText,
+        duration: duration,
+        courseFormat: courseFormat,
+        learningLevel: learningLevel,
+        whatYouWillLearn: whatYouWillLearn.filter(item => item.trim() !== ''),
+        status: status,
+        category: category,
+        courseDescription: courseDescription,
+        pricing: pricing,
+        whatIncludes: whatIncluded
+      };
+
+      const response = await fetch(`${BASEURL}/course/create-course`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(courseData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Course registered successfully:', result);
+      onClose();
+    } catch (error) {
+      console.error('Error registering course:', error);
+      // You might want to show an error message to the user here
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const addWhatYouLearnField = () => {
-    setWhatYouLearn([...whatYouLearn, '']);
+    setWhatYouWillLearn([...whatYouWillLearn, '']);
   };
 
   const removeWhatYouLearnField = (index: number) => {
-    const newFields = whatYouLearn.filter((_, i) => i !== index);
-    setWhatYouLearn(newFields);
+    const newFields = whatYouWillLearn.filter((_, i) => i !== index);
+    setWhatYouWillLearn(newFields);
   };
 
   const updateWhatYouLearnField = (index: number, value: string) => {
-    const newFields = [...whatYouLearn];
+    const newFields = [...whatYouWillLearn];
     newFields[index] = value;
-    setWhatYouLearn(newFields);
+    setWhatYouWillLearn(newFields);
   };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (courseFormatRef.current && !courseFormatRef.current.contains(event.target as Node)) {
+        setShowFormatDropdown(false);
+      }
+      if (learningLevelRef.current && !learningLevelRef.current.contains(event.target as Node)) {
+        setShowLevelDropdown(false);
+      }
+      if (categoryRef.current && !categoryRef.current.contains(event.target as Node)) {
+        setShowCategoryDropdown(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
@@ -780,33 +1002,67 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
-                <div className="relative">
-                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Format</label>
+                <div ref={courseFormatRef} className="relative">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Course Format</label>
                   <button
-                    onClick={() => setShowFormatDropdown(!showFormatDropdown)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    onClick={() => setShowFormatDropdown(true)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
-                    <span className={courseFormat ? 'text-gray-900' : 'text-gray-400'}>
-                      {courseFormat || 'In-person and Online'}
+                    <span className={courseFormats ? 'text-gray-900' : 'text-gray-400'}>
+                      {courseFormat || ''}
                     </span>
                     <ChevronDown className="w-5 h-5 text-gray-400" />
                   </button>
+
+                  {showFormatDropdown && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                      {courseFormats.map((cat) => (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setCourseFormat(cat);
+                            setShowFormatDropdown(false);
+                          }}
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                        >
+                          <span className="text-sm text-gray-900">{cat}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Learning Level and Course Description */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div className="relative">
-                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
+                <div ref={learningLevelRef} className="relative">
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Learning Level</label>
                   <button
-                    onClick={() => setShowLevelDropdown(!showLevelDropdown)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                    onClick={() => setShowLevelDropdown(true)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
                   >
-                    <span className={learningLevel ? 'text-gray-900' : 'text-gray-400'}>
-                      {learningLevel || 'Select All Three'}
+                    <span className={learningLevels ? 'text-gray-900' : 'text-gray-400'}>
+                      {learningLevel || ''}
                     </span>
                     <ChevronDown className="w-5 h-5 text-gray-400" />
                   </button>
+
+                  {showLevelDropdown && (
+                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                      {learningLevels.map((cat) => (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setLearningLevel(cat);
+                            setShowLevelDropdown(false);
+                          }}
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                        >
+                          <span className="text-sm text-gray-900">{cat}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Course Description</label>
@@ -815,6 +1071,16 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
                     value={courseDescription}
                     onChange={(e) => setCourseDescription(e.target.value)}
                     placeholder="Type text text text text text text"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Pricing</label>
+                  <input
+                    type="text"
+                    value={pricing}
+                    onChange={(e) => setPricing(e.target.value)}
+                    placeholder="e.g. 150,000"
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
                   />
                 </div>
@@ -838,7 +1104,7 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
               {/* What you'll learn */}
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">What you'll learn</label>
-                {whatYouLearn.map((field, index) => (
+                {whatYouWillLearn.map((field, index) => (
                   <div key={index} className="flex items-center gap-2 mb-3">
                     <input
                       type="text"
@@ -866,30 +1132,34 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
                 </button>
               </div>
 
-              {/* Learning Level and Pricing */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div className="relative">
-                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Learning Level</label>
-                  <button
-                    onClick={() => setShowLevelStep2Dropdown(!showLevelStep2Dropdown)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
-                  >
-                    <span className={learningLevelStep2 ? 'text-gray-900' : 'text-gray-400'}>
-                      {learningLevelStep2 || 'Select Level'}
-                    </span>
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
-                  </button>
-                </div>
-                <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-900 mb-2">Pricing</label>
-                  <input
-                    type="text"
-                    value={pricing}
-                    onChange={(e) => setPricing(e.target.value)}
-                    placeholder="Type text text text text text text"
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent"
-                  />
-                </div>
+              <div ref={learningLevelRef} className="relative">
+                <label className="block text-sm font-medium text-gray-900 mb-2">Category</label>
+                <button
+                  onClick={() => setShowCategoryDropdown(true)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#005F87] focus:border-transparent text-left flex items-center justify-between bg-white"
+                >
+                  <span className={categories ? 'text-gray-900' : 'text-gray-400'}>
+                    {category || ''}
+                  </span>
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                </button>
+
+                {showCategoryDropdown && (
+                  <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
+                    {categories.map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => {
+                          setCategory(cat);
+                          setShowCategoryDropdown(false);
+                        }}
+                        className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-lg last:rounded-b-lg"
+                      >
+                        <span className="text-sm text-gray-900">{cat}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* What is Included */}
@@ -904,12 +1174,25 @@ function RegisterCourseModal({ onClose }: { onClose: () => void }) {
               </div>
 
               {/* Action Button */}
-              <div className="flex justify-end mt-6 sm:mt-8">
+              <div className="flex justify-end mt-6 gap-4 sm:mt-8">
                 <button
-                  onClick={handleRegister}
-                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors"
+                  onClick={() => setStep(1)}
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300 transition-colors"
                 >
-                  Register
+                  Back
+                </button>
+                <button
+                  onClick={() => { handleRegister(); setStatus('draft') }}
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-300 transition-colors"
+                >
+                  Draft
+                </button>
+                <button
+                  onClick={() => { handleRegister(); setStatus('active') }}
+                  disabled={isSubmitting}
+                  className="px-6 sm:px-8 py-2.5 sm:py-3 bg-[#005F87] text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-[#004A6B] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Registering...' : 'Register'}
                 </button>
               </div>
             </div>
