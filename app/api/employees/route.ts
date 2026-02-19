@@ -34,10 +34,10 @@ export async function POST(request: NextRequest) {
     console.log('Received employee data:', employeeData);
     
     // Generate unique employee ID
-    const generatedEmployeeId = `EMP${Date.now().toString().slice(-6)}`;
+    const generatedEmployeeId = `BAH${Date.now().toString().slice(-6)}`;
     
     // Generate unique profile URL
-    const profileUrl = `https://bahojutech-employeeprofile.netlify.app/${generatedEmployeeId}`;
+    const profileUrl = `https://staff.bahojutech.com/${generatedEmployeeId}`;
     
     console.log('Generated profileUrl:', profileUrl);
     
